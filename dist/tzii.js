@@ -2,9 +2,9 @@ var I = Object.defineProperty;
 var $ = (n) => {
   throw TypeError(n);
 };
-var q = (n, i, e) => i in n ? I(n, i, { enumerable: !0, configurable: !0, writable: !0, value: e }) : n[i] = e;
-var a = (n, i, e) => q(n, typeof i != "symbol" ? i + "" : i, e), g = (n, i, e) => i.has(n) || $("Cannot " + e);
-var c = (n, i, e) => (g(n, i, "read from private field"), e ? e.call(n) : i.get(n)), x = (n, i, e) => i.has(n) ? $("Cannot add the same private member more than once") : i instanceof WeakSet ? i.add(n) : i.set(n, e), b = (n, i, e, t) => (g(n, i, "write to private field"), t ? t.call(n, e) : i.set(n, e), e), h = (n, i, e) => (g(n, i, "access private method"), e);
+var q = (n, e, i) => e in n ? I(n, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : n[e] = i;
+var a = (n, e, i) => q(n, typeof e != "symbol" ? e + "" : e, i), g = (n, e, i) => e.has(n) || $("Cannot " + i);
+var c = (n, e, i) => (g(n, e, "read from private field"), i ? i.call(n) : e.get(n)), x = (n, e, i) => e.has(n) ? $("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(n) : e.set(n, i), b = (n, e, i, t) => (g(n, e, "write to private field"), t ? t.call(n, i) : e.set(n, i), i), h = (n, e, i) => (g(n, e, "access private method"), i);
 const u = {
   1: ["eem", "i"],
   2: ["axik", "aaj", "ixik", "iij"],
@@ -46,7 +46,7 @@ const u = {
 };
 var o, d, w, P;
 class y {
-  constructor(i) {
+  constructor(e) {
     x(this, d);
     a(this, "original", "");
     x(this, o, "");
@@ -55,31 +55,31 @@ class y {
     a(this, "class", 0);
     a(this, "tense", "");
     a(this, "person", "");
-    this.original = i, b(this, o, i.toLowerCase()), this.class = h(this, d, w).call(this, i);
-    const { tense: e, person: t } = h(this, d, P).call(this);
-    this.tense = e, this.person = t;
+    this.original = e, b(this, o, e.toLowerCase()), this.class = h(this, d, w).call(this, e);
+    const { tense: i, person: t } = h(this, d, P).call(this);
+    this.tense = i, this.person = t;
   }
 }
 o = new WeakMap(), d = new WeakSet(), w = function() {
-  let i = c(this, o), e = 0;
-  i.endsWith("na") && (this.tense = "future", i = i.slice(0, -2).trim());
+  let e = c(this, o), i = 0;
+  e.endsWith("na") && (this.tense = "future", e = e.slice(0, -2).trim());
   for (let t of Object.keys(u)) {
     let s = u[t];
     for (let r of s)
-      if (i.endsWith(r)) {
-        e = Number(t), this.ending = r, b(this, o, i.slice(0, -r.length));
+      if (e.endsWith(r)) {
+        i = Number(t), this.ending = r, b(this, o, e.slice(0, -r.length));
         break;
       }
   }
-  return e;
+  return i;
 }, P = function() {
-  let i = "";
+  let e = "";
   for (let s of W)
     if (c(this, o).startsWith(s)) {
-      i = c(this, o).slice(0, s.length), this.root = c(this, o).slice(s.length);
+      e = c(this, o).slice(0, s.length), this.root = c(this, o).slice(s.length);
       break;
     }
-  if (!i) {
+  if (!e) {
     if (this.root = c(this, o), this.class === 3) {
       const s = this.root.split(""), r = ["a", "e", "i", "o", "u"];
       for (let l = s.length - 1; l >= 0; l--) {
@@ -95,82 +95,85 @@ o = new WeakMap(), d = new WeakSet(), w = function() {
       person: ""
     };
   }
-  let e = "", t = "";
+  let i = "", t = "";
   for (let s of Object.keys(p))
-    if (i.startsWith(p[s])) {
+    if (e.startsWith(p[s])) {
       if (s === "thirdSingularFuture")
         return {
           tense: "future",
           person: "third person singular"
         };
       {
-        e = s;
-        let r = i.slice(p[s].length);
+        i = s;
+        let r = e.slice(p[s].length);
         t = Object.keys(v).find((l) => v[l] === r);
         break;
       }
     }
   return {
-    tense: e,
+    tense: i,
     person: t
   };
 };
 var f, C, j;
-class A {
-  constructor(i) {
+class m {
+  constructor(e) {
     x(this, f);
-    this.verb = i;
+    this.verb = e;
   }
-  conjugateAll(i = "list") {
-    const e = i === "list" ? [] : {};
+  conjugateAll(e = "list") {
+    const i = e === "list" ? [] : {};
     for (let t of ["past", "present", "future"]) {
-      i === "object" && (e[t] = {});
-      for (let s of ["first person", "second person", "third person"]) {
-        i === "object" && (e[t][s] = {});
-        for (let r of ["singular", "plural"])
-          i === "list" ? e.push({
-            title: `${s} ${r} ${t}`,
-            word: this.conjugateWord(t, s, r)
-          }) : i === "object" && (e[t][s][r] = this.conjugateWord(t, s, r));
+      e === "object" && (i[t] = {});
+      for (let s of ["singular", "plural"]) {
+        e === "object" && (i[t][s] = {});
+        for (let r of ["first person", "second person", "third person"])
+          e === "list" ? i.push({
+            title: `${r} ${s} ${t}`,
+            person: r,
+            tense: t,
+            number: s,
+            word: this.conjugateWord(t, r, s)
+          }) : e === "object" && (i[t][s][r] = this.conjugateWord(t, r, s));
       }
     }
-    return i === "list" ? e.push({
+    return e === "list" ? i.push({
       title: "infinitive",
       word: this.conjugateWord("infinitive")
-    }) : e.infinitive = this.conjugateWord("infinitive"), e;
+    }) : i.infinitive = this.conjugateWord("infinitive"), i;
   }
-  conjugateWord(i, e, t) {
-    return i === "infinitive" ? `${this.verb.root}${h(this, f, j).call(this, i)}` : `${h(this, f, C).call(this, i, e, t)}${this.verb.root}${h(this, f, j).call(this)}`;
+  conjugateWord(e, i, t) {
+    return e === "infinitive" ? `${this.verb.root}${h(this, f, j).call(this, e)}` : `${h(this, f, C).call(this, e, i, t)}${this.verb.root}${h(this, f, j).call(this)}`;
   }
-  isPrefixValid(i) {
-    return !!W.includes(i);
+  isPrefixValid(e) {
+    return !!W.includes(e);
   }
 }
-f = new WeakSet(), C = function(i, e, t) {
+f = new WeakSet(), C = function(e, i, t) {
   let s = "";
-  if (s += p[i], s += v[`${e} ${t}`], i === "future" && e === "third person" && t === "singular" && (s = "xti"), !this.isPrefixValid(s))
+  if (s += p[e], s += v[`${i} ${t}`], e === "future" && i === "third person" && t === "singular" && (s = "xti"), !this.isPrefixValid(s))
     throw new Error(`Invalid prefix: ${s}`);
   return s;
-}, j = function(i) {
-  let e = "";
+}, j = function(e) {
+  let i = "";
   if ([1, 3, 5, 6].includes(this.verb.class)) {
-    const t = i === "infinitive" ? 0 : 1;
-    e += u[this.verb.class][t];
+    const t = e === "infinitive" ? 0 : 1;
+    i += u[this.verb.class][t];
   } else if (this.verb.class === 2) {
     if (["axik", "aaj"].includes(this.verb.ending)) {
-      const t = i === "infinitive" ? 0 : 1;
-      e += u[this.verb.class][t];
+      const t = e === "infinitive" ? 0 : 1;
+      i += u[this.verb.class][t];
     } else if (["ixik", "iij"].includes(this.verb.ending)) {
-      const t = i === "infinitive" ? 2 : 3;
-      e += u[this.verb.class][t];
+      const t = e === "infinitive" ? 2 : 3;
+      i += u[this.verb.class][t];
     }
   } else if (this.verb.class === 4) {
-    const t = i === "infinitive" ? 0 : 2;
-    e += u[this.verb.class][t];
+    const t = e === "infinitive" ? 0 : 2;
+    i += u[this.verb.class][t];
   }
-  return i === "future" && (e += " na"), e;
+  return e === "future" && (i += " na"), i;
 };
-const O = { Verb: y, Conjugator: A };
+const E = { Verb: y, Conjugator: m };
 export {
-  O as default
+  E as default
 };
