@@ -1,0 +1,45 @@
+{
+  "name": "tzii.js",
+  "version": "1.1.0",
+  "description": "Maya Tz'utujil word utilities for translation and conjugation",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/tzii.umd.js",
+  "module": "./dist/tzii.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/tzii.js",
+      "require": "./dist/tzii.umd.js"
+    }
+  },
+  "scripts": {
+    "test": "vitest",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/micahlt/tziij.s.git"
+  },
+  "author": "Micah Lindley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/micahlt/tziij.s/issues"
+  },
+  "homepage": "https://github.com/micahlt/tziij.s#readme",
+  "devDependencies": {
+    "vite": "^6.2.0",
+    "vitest": "^3.0.7"
+  },
+  "keywords": [
+    "maya",
+    "tzutujil",
+    "tziij",
+    "tzii",
+    "translation",
+    "conjugation",
+    "grammar",
+    "guatemala"
+  ]
+}
