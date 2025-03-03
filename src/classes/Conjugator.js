@@ -13,18 +13,21 @@ class Conjugator {
             if (format === "object") {
                 conjugations[tense] = {};
             }
-            for (let person of ["first person", "second person", "third person"]) {
+            for (let number of ["singular", "plural"]) {
                 if (format === "object") {
-                    conjugations[tense][person] = {};
+                    conjugations[tense][number] = {};
                 }
-                for (let number of ["singular", "plural"]) {
+                for (let person of ["first person", "second person", "third person"]) {
                     if (format === "list") {
                         conjugations.push({
                             title: `${person} ${number} ${tense}`,
+                            person: person,
+                            tense: tense,
+                            number: number,
                             word: this.conjugateWord(tense, person, number)
                         });
                     } else if (format === "object") {
-                        conjugations[tense][person][number] = this.conjugateWord(tense, person, number);
+                        conjugations[tense][number][person] = this.conjugateWord(tense, person, number);
                     }
                 }
             }
